@@ -172,5 +172,35 @@ namespace FBIntergrationApi.Controllers
             var client = _clientFactory.CreateClient();
             return await client.SendAsync(request);
         }
+
+        // POST: api/Comments/Instagram
+        [HttpPost]
+        [Route("Instagram")]
+        public async Task PostInstagramComment(WebhookInstagramDTO webhookInstagramDTO)
+        {
+            var socialmediacommentthread = new Socialmediacommentthread();
+            socialmediacommentthread.postID = 0;
+            socialmediacommentthread.subject = "";
+            socialmediacommentthread.createdt = String.Concat(webhookInstagramDTO.entry[0].time, "");
+            socialmediacommentthread.body = webhookInstagramDTO.entry[0].changes[0].value.text;
+            socialmediacommentthread.originator = ""; // call GetCustomerIDFromName()
+            socialmediacommentthread.originatorname = "";
+            socialmediacommentthread.disabled = 0;
+            socialmediacommentthread.status = 0;
+            socialmediacommentthread.channelID = 0; // to be taken fron initialization data ;
+            socialmediacommentthread.modifydt = null;
+            socialmediacommentthread.image = ""; // call GetGUIDFromImageURL()
+            socialmediacommentthread.orgID = 0; // to be taken fron initialization data ;
+            socialmediacommentthread.mood = 0;
+            socialmediacommentthread.activeAgent = -1;
+            socialmediacommentthread.sourceSocialMediaMsgID = webhookInstagramDTO.entry[0].changes[0].value.id;
+            socialmediacommentthread.url = "";
+            _socialmediacommentthreadcontext.Socialmediacommentthreads.Add(socialmediacommentthread);
+            await _socialmediacommentthreadcontext.SaveChangesAsync();
+            return;
+        }
+
+
+
     }
 }
