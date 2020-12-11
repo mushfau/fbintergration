@@ -45,6 +45,15 @@ namespace FBIntergrationApi.Controllers
             return _accessor.HttpContext.Request.Query["hub.challenge"];
         }
 
+        // GET: api/Comments/Instagram
+        [HttpGet]
+        [Route("Instagram")]
+        public string VerifyInstaWebhook()
+        {
+            Console.WriteLine("Instagram");
+            return _accessor.HttpContext.Request.Query["hub.challenge"];
+        }
+
         // POST: api/Comments/Subscribe
         [HttpPost]
         [Route("Subscribe")]
